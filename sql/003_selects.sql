@@ -69,3 +69,14 @@ select count(1) from
   SELECT * FROM ppp) as t1 where t1.id_parent is null;
 
 // должно быть 1
+
+// в одной папке нету файлов и папок с одинаковым файлнеймом
+select count(1) from (select id_parent, count(1)-count(distinct file_name) as diff from files group by id_parent) as t1 where t1.diff!=0;
+// должен быть 0
+
+// проверка что parent каждого файла или папки это именно папка
+select count(1) from files inner join files as t1 on files.id_parent=t1.id_file where t1.id_type!=2;
+// должен быть 0
+
+
+
